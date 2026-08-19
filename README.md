@@ -1,13 +1,3 @@
-直接全选复制下面全部内容，保存为  README.md ，放到项目根目录，推送到GitHub即可直接渲染使用。
- 
-markdown
-  
-# gateway
-> Linux‑C 嵌入式智能网关 | IoT Edge Gateway Demo
-
-[![C](https://img.shields.io/badge/language-C-blue.svg)]
-[![Linux](https://img.shields.io/badge/platform-Linux-green.svg)]
-
 ## 简介
 基于 Linux C 实现的嵌入式智能边缘网关。
 实现守护进程后台运行、信号处理、子进程回收、MQTT消息收发、系统日志、OTA升级基础框架。

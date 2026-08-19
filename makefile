@@ -1,0 +1,58 @@
+CC :=gcc
+CFLAGS := -g -O0 -Wall
+
+log:=thirdparty/log/log.h thirdparty/log/log.c
+
+log_test:test/log_test.c $(log)
+	$(CC) $(CFLAGS) $^ -o $@ -Ithirdparty
+	./$@
+	-rm $@
+
+json:=thirdparty/cJSON/cJSON.h thirdparty/cJSON/cJSON.c
+json_test:test/json_test.c $(json) $(log)
+	$(CC) $(CFLAGS) $^ -o $@ -I thirdparty
+# 	-./$@
+# 	-rm $@
+
+
+app_common:= app/app_common.c app/app_common.h
+app_commom_test: test/app_common_test.c $(app_common) $(log)
+	-$(CC) $^ -o $@ -Iapp -Ithirdparty
+	-./$@
+	-rm $@
+
+app_message:= app/app_message.c app/app_message.h
+app_message_test: test/app_message_test.c $(app_message) $(app_common) $(log) $(json)
+	-$(CC) $^ -o $@ -Iapp -Ithirdparty
+	-./$@
+	-rm $@
+
+mqtt_test: test/mqtt_test.c
+	$(CC) $^ -o $@ -lpaho-mqtt3c
+	./$@
+	-rm $@
+
+app_mqtt:= app/app_mqtt.c app/app_mqtt.h
+app_mqtt_test: test/app_mqtt_test.c $(app_mqtt) $(log)
+	-$(CC) $^ -o $@ -Iapp -Ithirdparty -lpaho-mqtt3c
+	-./$@
+	-rm $@
+
+app_pool:= app/app_pool.c app/app_pool.h
+app_pool_test: test/app_pool_test.c $(app_pool) $(log)
+	-$(CC) $^ -o $@ -Iapp -Ithirdparty
+	-./$@
+	-rm $@
+
+app_buffer:= app/app_buffer.c app/app_buffer.h
+app_buffer_test: test/app_buffer_test.c $(app_buffer) $(log)
+	-$(CC) $^ -o $@ -Iapp -Ithirdparty
+	-./$@
+	-rm $@
+
+app_device:=app/app_device.c app/app_device.h
+app_bt:=app/app_bt.c app/app_bt.h
+app_device_test: test/app_device_test.c $(app_device) $(log) $(app_buffer) $(app_message) $(app_common) $(json) $(app_pool) $(app_mqtt) $(app_bt)
+	-$(CC) -o $@ $^ -Ithirdparty -Iapp -lpaho-mqtt3c
+	-./$@
+	-rm $@
